@@ -9,13 +9,16 @@ public class LoginService {
     public User isUserExists(String name, String password) throws IllegalArgumentException {
 
         User user = userDao.getUserByName(name);
-        if (userDao.getUserByName(name) == null) {
-            throw new IllegalArgumentException("The user doesn't exist");
+
+        if (user == null) {
+            throw new IllegalArgumentException("The user "+name+" doesn't exist");
         }
+
         boolean correctPassword = (user.getPassword().equals(password));
-        if (correctPassword == false) {
+        if (!correctPassword) {
             throw new IllegalArgumentException("Password is not correct");
         }
+
         return user;
     }
 }

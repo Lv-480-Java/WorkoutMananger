@@ -15,5 +15,5 @@ public interface IGeneralDao<T> {
     void update(T t);
 
     //delete
-    void remove(T t);
+    void remove(Long id);
 }

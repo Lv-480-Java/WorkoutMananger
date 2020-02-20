@@ -24,22 +24,23 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String password = req.getParameter("password");
-        System.out.println(name+" "+password);
+        //System.out.println(name+" "+password);
         LoginService loginService = new LoginService();
 
         try {
             User user=loginService.isUserExists(name, password);
+
             HttpSession session = req.getSession();
             session.setAttribute("user",user);
+
             if (user.getUserRole()==UserRole.USER){
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/mypage.jsp");
                 req.setAttribute("msg", "Logging successful");
-                rd.include(req, resp);
+                resp.sendRedirect("user");
             }
+
             if (user.getUserRole()==UserRole.ADMIN){
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/adminpage.jsp");
                 req.setAttribute("msg", "Logging successful");
-                rd.include(req, resp);
+                resp.sendRedirect("admin");
             }
 
 

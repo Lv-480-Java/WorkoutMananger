@@ -40,7 +40,7 @@ public class RegisterServlet extends HttpServlet {
             userService.registerUser(user, passwordRepeat);
 
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/mainpage.jsp");
-            req.setAttribute("msg", "Registration successful");
+            req.setAttribute("msg", "Your registration is successful");
             rd.include(req, resp);
 
         } catch (IllegalArgumentException e) {

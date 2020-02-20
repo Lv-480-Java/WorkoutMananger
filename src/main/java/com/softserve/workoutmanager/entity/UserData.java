@@ -10,7 +10,7 @@ public class UserData {
     private double percentOfFat;
     private double percentOfMuscle;
     private Timestamp createData;
-    private long userId;
+    private long User_id;
 
     public UserData() {
     }
@@ -63,12 +63,12 @@ public class UserData {
         this.createData = createData;
     }
 
-    public long getUserId() {
-        return userId;
+    public long getUser_id() {
+        return User_id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser_id(long user_id) {
+        User_id = user_id;
     }
 
     @Override
@@ -81,14 +81,14 @@ public class UserData {
                 Double.compare(userData.height, height) == 0 &&
                 Double.compare(userData.percentOfFat, percentOfFat) == 0 &&
                 Double.compare(userData.percentOfMuscle, percentOfMuscle) == 0 &&
-                userId == userData.userId &&
+                User_id == userData.User_id &&
                 Objects.equals(createData, userData.createData);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, weigh, height, percentOfFat, percentOfMuscle, createData, userId);
+        return Objects.hash(id, weigh, height, percentOfFat, percentOfMuscle, createData, User_id);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class UserData {
                 ", percentOfFat=" + percentOfFat +
                 ", percentOfMuscle=" + percentOfMuscle +
                 ", createData=" + createData +
-                ", userId=" + userId +
+                ", User_id=" + User_id +
                 '}';
     }
 }

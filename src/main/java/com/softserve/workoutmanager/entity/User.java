@@ -10,8 +10,6 @@ public class User {
     private String email;
     private String phone;
     private UserRole userRole;
-    private List<UserData> dataList;
-    private List<Schedule> scheduleList;
 
     public User() {
     }
@@ -64,22 +62,6 @@ public class User {
         this.userRole = userRole;
     }
 
-    public List<UserData> getDataList() {
-        return dataList;
-    }
-
-    public void setDataList(List<UserData> dataList) {
-        this.dataList = dataList;
-    }
-
-    public List<Schedule> getScheduleList() {
-        return scheduleList;
-    }
-
-    public void setScheduleList(List<Schedule> scheduleList) {
-        this.scheduleList = scheduleList;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,15 +72,13 @@ public class User {
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(phone, user.phone) &&
-                userRole == user.userRole &&
-                Objects.equals(dataList, user.dataList) &&
-                Objects.equals(scheduleList, user.scheduleList);
+                userRole == user.userRole;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, password, email, phone, userRole, dataList, scheduleList);
+        return Objects.hash(id, name, password, email, phone, userRole);
     }
 
     @Override
@@ -110,8 +90,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", userRole=" + userRole +
-                ", dataList=" + dataList +
-                ", scheduleList=" + scheduleList +
                 '}';
     }
 }

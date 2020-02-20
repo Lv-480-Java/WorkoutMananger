@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Schedule {
     private long id;
-    private Timestamp date;
+    private String date;
     private String comment;
     private long userId;
 
@@ -20,11 +20,11 @@ public class Schedule {
         this.id = id;
     }
 
-    public Timestamp getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

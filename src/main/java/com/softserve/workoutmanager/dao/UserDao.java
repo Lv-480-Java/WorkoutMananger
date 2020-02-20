@@ -2,25 +2,22 @@ package com.softserve.workoutmanager.dao;
 
 import com.softserve.workoutmanager.entity.User;
 import com.softserve.workoutmanager.entity.UserRole;
+import com.softserve.workoutmanager.tool.connection.DatabaseConnection;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.softserve.workoutmanager.tool.connection.DatabaseConnection.getConnection;
 
-public class UserDao implements IGeneralDao<User> {
+
+public class UserDao {
 
     private static Logger logger = Logger.getLogger(UserDao.class.getName());
 
-    @Override
     public void create(User user) {
-        if (user.getUserRole() == null) {
-            user.setUserRole(UserRole.USER);
-        }
         String sql = "INSERT INTO USERS (NAME, PASSWORD, EMAIL, PHONE, USERROLE) VALUES (? ,? ,? ,? ,?)";
-        try (Connection connection = getConnection();
+        try (Connection connection= DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             setToStatement(user, preparedStatement);
             preparedStatement.execute();
@@ -30,11 +27,11 @@ public class UserDao implements IGeneralDao<User> {
     }
 
 
-    @Override
+
     public List<User> getAll() {
         List<User> userList = new ArrayList<>();
-        String sql = "SELECT ID,NAME,PASSWORD,EMAIL,PHONE,USERROLE FROM USERS";
-        try (Connection connection = getConnection();
+        String sql = "SELECT * FROM USERS";
+        try (Connection connection= DatabaseConnection.getInstance().getConnection();
              Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
 
@@ -56,16 +53,15 @@ public class UserDao implements IGeneralDao<User> {
     }
 
     public User getUserByName(String name) {
-        String sql = "SELECT ID,NAME,PASSWORD,EMAIL,PHONE,USERROLE FROM USERS WHERE NAME=?";
+        String sql = "SELECT * FROM USERS WHERE NAME=?";
         User user = null;
-        try (Connection connection = getConnection();
+        try (Connection connection= DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                user = new User();
-                user = setUser(resultSet);
+               user = setUser(resultSet);
             }
 
         } catch (SQLException e) {
@@ -75,15 +71,14 @@ public class UserDao implements IGeneralDao<User> {
     }
 
     public User getUserByEmail(String email) {
-        String sql = "SELECT ID,NAME,PASSWORD,EMAIL,PHONE,USERROLE FROM USERS WHERE EMAIL=?";
+        String sql = "SELECT * FROM USERS WHERE EMAIL=?";
         User user = null;
-        try (Connection connection = getConnection();
+        try (Connection connection= DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, email);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                user = new User();
                 user = setUser(resultSet);
             }
 
@@ -93,17 +88,16 @@ public class UserDao implements IGeneralDao<User> {
         return user;
     }
 
-    @Override
+
     public User getById(long id) {
-        String sql = "SELECT ID,NAME,PASSWORD,EMAIL,PHONE,USERROLE FROM USERS WHERE ID=?";
+        String sql = "SELECT * FROM USERS WHERE ID=?";
         User user = null;
-        try (Connection connection = getConnection();
+        try (Connection connection= DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                user = new User();
                 user = setUser(resultSet);
             }
 
@@ -113,28 +107,30 @@ public class UserDao implements IGeneralDao<User> {
         return user;
     }
 
-    @Override
-    public void update(User user) {
-        if (user.getUserRole() == null) {
-            user.setUserRole(UserRole.USER);
-        }
-        String sql = "UPDATE USERS SET ID=?, NAME=?, PASSWORD=?, EMAIL=?, PHONE=?,USERROLE=?";
 
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            setToStatement(user, preparedStatement);
-            preparedStatement.execute();
+    public void update(User user, Long id) {
+        String sql = "UPDATE USERS SET NAME=?, PASSWORD=?, EMAIL=?, PHONE=? WHERE ID=?";
+
+        try (Connection connection= DatabaseConnection.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setLong(5, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void remove(User user) {
+
+    public void remove(Long id) {
         String sql = "DELETE FROM USERS WHERE ID=?";
-        try (Connection connection = getConnection();
+        try (Connection connection= DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

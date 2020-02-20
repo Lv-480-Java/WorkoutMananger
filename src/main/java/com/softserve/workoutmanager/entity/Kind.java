@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Kind {
     private long id;
     private String name;
-    private long categoryId;
+    private long scheduleId;
 
     public Kind() {
     }
@@ -26,12 +26,12 @@ public class Kind {
         this.name = name;
     }
 
-    public long getCategoryId() {
-        return categoryId;
+    public long getScheduleId() {
+        return scheduleId;
     }
 
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
+    public void setScheduleId(long scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     @Override
@@ -40,14 +40,14 @@ public class Kind {
         if (o == null || getClass() != o.getClass()) return false;
         Kind kind = (Kind) o;
         return id == kind.id &&
-                categoryId == kind.categoryId &&
+                scheduleId == kind.scheduleId &&
                 Objects.equals(name, kind.name);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, categoryId);
+        return Objects.hash(id, name, scheduleId);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Kind {
         return "Kind{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", categoryId=" + categoryId +
+                ", scheduleId=" + scheduleId +
                 '}';
     }
 }

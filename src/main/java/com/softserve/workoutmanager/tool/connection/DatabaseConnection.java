@@ -1,27 +1,46 @@
 package com.softserve.workoutmanager.tool.connection;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Logger;
+
 
 public class DatabaseConnection {
-    private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/workout_manager?useUnicode=true&serverTimezone=UTC";
-    private static final String DB_NAME = "root";
-    private static final String DB_PASSWORD = "Wiqkkio8s8wnum9i7";
-    private static Connection connection;
+    //private static Logger logger = Logger.getLogger(DatabaseConnection.class.getName());
+
+    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3306/workout_manager?useUnicode=true&serverTimezone=UTC";
+    private static final String NAME = "root";
+    private static final String PASSWORD = "Wiqkkio8s8wnum9i7";
+    private static DatabaseConnection instance;
+    private Connection connection;
 
     private DatabaseConnection() {
-    }
-
-    public static Connection getConnection() {
         try {
             Class.forName(DB_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_NAME, DB_PASSWORD);
+            connection = DriverManager.getConnection(URL, NAME, PASSWORD);
+            //logger.info("Connected to database  is successfully");
         } catch (SQLException | ClassNotFoundException e) {
-            Logger.getGlobal().info("Connected Error");
+            //logger.error("Problem with connection to database");
+            //logger.error(e.getMessage());
         }
+    }
+
+    public static DatabaseConnection getInstance() {
+        try {
+            if (instance == null || instance.getConnection().isClosed()) {
+                instance = new DatabaseConnection();
+            }
+        } catch (SQLException e) {
+            //logger.error(e.getMessage());
+        }
+        return instance;
+    }
+
+    public Connection getConnection() {
         return connection;
     }
+
 }
