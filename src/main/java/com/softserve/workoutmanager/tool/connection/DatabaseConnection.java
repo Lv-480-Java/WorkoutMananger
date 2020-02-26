@@ -13,7 +13,7 @@ public class DatabaseConnection {
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/workout_manager?useUnicode=true&serverTimezone=UTC";
     private static final String NAME = "root";
-    private static final String PASSWORD = "Wiqkkio8s8wnum9i7";
+    private static final String PASSWORD = "";
     private static DatabaseConnection instance;
     private Connection connection;
 
